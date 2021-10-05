@@ -1,0 +1,96 @@
+body{
+    background-image: url(https://media.istockphoto.com/photos/gray-abstract-minimal-motion-backgrounds-loopable-elements-4k-picture-id1174989482?b=1&k=20&m=1174989482&s=170667a&w=0&h=ld7ukW9KTzUlJLc6c37C2xs5ESYP2wLyjxsEVCumn2s=);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: hv;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 75px;
+    overflow: hidden;
+}
+h1{
+    font-weight: normal;
+    font-size: 86px;
+    align-items: center;
+}
+
+.count{
+    display: flex;
+}
+.time{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+.time h2{
+    font-weight: bold;
+    font-size: 90px;
+    line-height: 0;
+    align-items: center;
+    margin-bottom: 40px;
+    margin-top: 250px;
+}
+.wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.item{
+    padding: 10px;
+}
+.btn1{
+    display: block;
+    border: 0;
+    font-size: 20px;
+    padding: 10px 30px;
+    border-radius: 30px;
+    background: #0081D5;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.btn1:hover,
+.btn1:focus{
+    background: #005C99;
+    color: white;
+}
+.btn1:active{
+    background: #003659;
+}
+.btn1-outline:active{
+    background: white;
+    color: #0081D5;
+}
+
+.btn2{
+    display: block;
+    border: 0;
+    font-size: 20px;
+    padding: 10px 30px;
+    border-radius: 30px;
+    background: #FF5C58;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.btn2:hover,
+.btn2:focus{
+    background: #FF0000;
+    color: white;
+}
+.btn2:active{
+    background: #003659;
+}
+.btn2-outline:active{
+    background: white;
+    color: #0081D5;
+}
+
+

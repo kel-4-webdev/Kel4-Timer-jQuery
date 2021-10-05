@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<title>Timer</title>
+</head>
+<body>
+	<div id="count" class="count">
+		<div class="time">
+			<h2 id="hours">00</h2>
+			<small>Hours</small>
+		</div>
+		<div class="time">
+			<h2 id="minutes">00</h2>
+			<small>Minutes</small>
+		</div>
+		<div class="time">
+			<h2 id="seconds">00</h2>
+			<small>Seconds</small>
+		</div>
+	</div>
+	<div class="wrap">
+		<div class="item">
+			<button class="btn1" onclick="startstopcontinue()" id="start-stop-continue">Start</button>
+		</div>
+		<div class="item">
+			<button class="btn2" onclick="stop()" id="button-stop">Stop</button>
+		</div>
+	</div>
+	<h2 id="pesan">Waktu Pengerjaan Anda : 0 Jam 0 Menit 0 Detik</h2>
+</body>
+<script type="text/javascript" src="js/script.js"></script>
+</html>
