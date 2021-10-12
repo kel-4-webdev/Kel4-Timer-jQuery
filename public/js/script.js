@@ -1,3 +1,8 @@
+const { appendFile } = require('fs');
+const { pathToFileURL } = require('url');
+const { createTimer } = require('../../queries');
+const db = require('./queries')
+
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
@@ -7,7 +12,7 @@ let display_hours = 0;
 let interval = null;
 let status = "stopped";
 
-window.addEventListener('beforeunload', function (e) {
+window.addEventListener('beforeunload', async function (e) {
 
     e.preventDefault()
 
@@ -15,6 +20,12 @@ window.addEventListener('beforeunload', function (e) {
     localStorage.setItem('Time', JSON.stringify({hours, minutes, seconds}));
     localStorage.setItem('stat', status);
 
+    // await $.ajax({
+    //     data: JSON stopwatch,
+    //     dataType: 'JSON',
+    //     url: 'http://localhost:3000/timer',
+    //     type: 'PUT'
+    // });
 });
 
 window.addEventListener('load', function (e) {

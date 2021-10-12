@@ -1,29 +1,33 @@
-'use strict';
+const express = require('express')
+const bodyParser = require('body-parser')
+const app = express()
+const db = require('./queries')
+const { response } = require('express')
+const port = 3000
 
-var express = require('express'),
-    app = express(),
-    port = process.env.PORT || 3000,
-    cors = require('cors'),
-    http = require('http'),
-    fs = require('fs');
+app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+)
 
-app.use(cors());
-
-app.use(express.static('public'));
-app.use('/css', express.static(__dirname + '/public/css'));
-app.use('/js', express.static(__dirname + '/public/js'));
-app.use('/img', express.static(__dirname + '/public /img'));
-
-app.set('view engine', 'ejs');
-
-app.get('',(req,res) => {
-    res.render(__dirname + '/views/index.ejs');
+app.get('/', (request, response) => {
+  response.json({ info: 'Node.js, Express, and Postgres API' })
 })
-//require("./layout/index.html")(app);
 
-// start server
-app.listen(port);
+app.post('/cikan', (request, response) => {
+    request.json({close_time: 'tes', timer: '100', stat: 'stopped'})
+})
 
-console.log('RESTful API server started on: ' + port);
 
-module.exports = app;
+app.get('/timer', db.getTimer)
+app.get('/users/:id', db.getUserById)
+app.post('/cikan', db.createTimer)
+app.put('/users/:id', db.updateUser)
+app.delete('/users/:id', db.deleteUser)
+
+app.listen(port, () => {
+  console.log(`App running on port ${port}.`)
+})
+
