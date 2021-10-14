@@ -11,9 +11,18 @@ window.addEventListener('beforeunload', function (e) {
 
     e.preventDefault()
 
-    localStorage.setItem('closed-time', new Date());
-    localStorage.setItem('Time', JSON.stringify({hours, minutes, seconds}));
-    localStorage.setItem('stat', status);
+    // localStorage.setItem('closed-time', new Date());
+    // localStorage.setItem('Time', JSON.stringify({hours, minutes, seconds}));
+    // localStorage.setItem('stat', status);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'http://localhost:3000/users', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        time: new Date(),
+        status: status,
+    }));
+    console.log(this.status)
 
 });
 
@@ -42,6 +51,50 @@ window.addEventListener('load', function (e) {
         startTimer()
         startstopcontinue()
     }
+
+    // EXPERIMENT
+    /*get the inner html value of div with "address" as its ID*/
+    // var long= "long=" + $('#longitude').val();
+    // var lat = "lat=" + $('#latitude').val();   
+    // var data = "id=" + $('#id').html()+'&'+long+'&'+lat;
+
+    // $.ajax({
+    //     type: 'GET',
+    //     url: "http://localhost:3000/users",
+    //     data: data
+    // })
+    // .done(function(data) {
+    //     /*handle successful call here*/
+    // })
+    // .fail(function(data) {
+    //     /*oops, something went wrong*/
+    // })
+    // .always(function(data) {
+    //     /*no matter what, let's do this*/
+    // }); 
+    // $.getJSON('/users/36', function(response) {
+    //     time = this.time
+    //     // do something with the response, which should be the same as 'results.rows' above
+    //   });
+
+    // var xhr = new XMLHttpRequest();
+    // // we defined the xhr
+
+    // xhr.onreadystatechange = function () {
+    //     if (this.readyState != 4) return;
+
+    //     if (this.status == 200) {
+    //         var data = JSON.parse(this.responseText);
+
+    //         // we get the returned data
+    //     }
+
+    //     // end of state change: it can be after some time (async)
+    // };
+
+    // xhr.open('GET', 'http://localhost:3000/users/36', true);
+    // xhr.send();
+
     
 
 });
