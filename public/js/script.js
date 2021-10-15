@@ -1,3 +1,8 @@
+// ** Change Log ** //
+// - change global variable "status" to "timer_status" (status variable is depricated)
+// - restore local storage system in aplication (store closed time and load from local storage)
+// - add some logic in "stop" method for storing timer data to db
+
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
@@ -5,7 +10,7 @@ let display_seconds = 0;
 let display_minutes = 0;
 let display_hours = 0;
 let interval = null;
-let status = "stopped";
+let timer_status = "stopped";
 
 window.addEventListener('beforeunload', function (e) {
 
@@ -13,18 +18,7 @@ window.addEventListener('beforeunload', function (e) {
 
     localStorage.setItem('closed-time', new Date());
     localStorage.setItem('Time', JSON.stringify({hours, minutes, seconds}));
-    localStorage.setItem('stat', status);
-
-    // this code below needed for add data history to database
-    // var xhr = new XMLHttpRequest();
-    // xhr.open("POST", 'http://localhost:3000/users', true);
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.send(JSON.stringify({
-    //     time: new Date(),
-    //     status: status,
-    // }));
-    // console.log(this.status)
-
+    localStorage.setItem('stat', timer_status);
 });
 
 window.addEventListener('load', function (e) {
@@ -48,7 +42,7 @@ window.addEventListener('load', function (e) {
         hours = duration.hours
         minutes = duration.minutes
         seconds = duration.seconds - 1 // -1 because startTimer() starting with seconds++
-        status = "paused"
+        timer_status = "paused"
         startTimer()
         startstopcontinue()
     }
@@ -77,27 +71,6 @@ window.addEventListener('load', function (e) {
     //     time = this.time
     //     // do something with the response, which should be the same as 'results.rows' above
     //   });
-
-    // var xhr = new XMLHttpRequest();
-    // // we defined the xhr
-
-    // xhr.onreadystatechange = function () {
-    //     if (this.readyState != 4) return;
-
-    //     if (this.status == 200) {
-    //         var data = JSON.parse(this.responseText);
-
-    //         // we get the returned data
-    //     }
-
-    //     // end of state change: it can be after some time (async)
-    // };
-
-    // xhr.open('GET', 'http://localhost:3000/users/36', true);
-    // xhr.send();
-
-    
-
 });
 
 
@@ -135,20 +108,20 @@ function startTimer(){
 }
 
 function startstopcontinue() {
-    if (status === "stopped"){
+    if (timer_status === "stopped"){
         interval=window.setInterval(startTimer, 1000);
         document.getElementById("start-stop-continue").innerHTML="Pause";
-        status="paused";
+        timer_status="paused";
     }
-    else if (status === "paused"){
+    else if (timer_status === "paused"){
         window.clearInterval(interval);
         document.getElementById("start-stop-continue").innerHTML="Continue";
-        status="continue";
+        timer_status="continue";
     }
-    else if (status === "continue"){
+    else if (timer_status === "continue"){
         interval=window.setInterval(startTimer, 1000);
         document.getElementById("start-stop-continue").innerHTML="Pause";
-        status="paused"; 
+        timer_status="paused"; 
     }
 }
 
@@ -156,7 +129,18 @@ function stop(){
     window.clearInterval(interval);
     document.getElementById("start-stop-continue").innerHTML="Start";
     document.getElementById("pesan").innerHTML="Total Waktu Pengerjaan : " + hours + " Jam " + minutes + " Menit " + seconds + " Detik";
-    status = "stopped";
+
+    // processing store to db
+    let duration = calculateDuration(hours, minutes, seconds) // send time data in second
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'http://localhost:3000/history', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        total_time: duration,
+        created_on: new Date(),
+    }));
+
+    timer_status = "stopped";
     seconds = 0;
     minutes = 0;
     hours = 0;
