@@ -11,18 +11,19 @@ window.addEventListener('beforeunload', function (e) {
 
     e.preventDefault()
 
-    // localStorage.setItem('closed-time', new Date());
-    // localStorage.setItem('Time', JSON.stringify({hours, minutes, seconds}));
-    // localStorage.setItem('stat', status);
+    localStorage.setItem('closed-time', new Date());
+    localStorage.setItem('Time', JSON.stringify({hours, minutes, seconds}));
+    localStorage.setItem('stat', status);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'http://localhost:3000/users', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        time: new Date(),
-        status: status,
-    }));
-    console.log(this.status)
+    // this code below needed for add data history to database
+    // var xhr = new XMLHttpRequest();
+    // xhr.open("POST", 'http://localhost:3000/users', true);
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify({
+    //     time: new Date(),
+    //     status: status,
+    // }));
+    // console.log(this.status)
 
 });
 
