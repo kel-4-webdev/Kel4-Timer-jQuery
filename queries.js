@@ -1,3 +1,10 @@
+// ** Change Log ** //
+// - user method changed to history
+// - id variable changed to timer_id
+// - time variable changed to created_on
+// - status variable changed to total_time
+// - Changed table name from users to timer_history
+
 const Pool = require('pg').Pool
 const pool = new Pool({
     user: 'me',
@@ -7,8 +14,8 @@ const pool = new Pool({
     port: 5432,
 })
 
-const getUsers = (req, res) => {
-    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+const getHistory = (req, res) => {
+    pool.query('SELECT * FROM timer_history ORDER BY timer_id ASC', (error, results) => {
         if (error) {
             throw error
         }
@@ -16,10 +23,10 @@ const getUsers = (req, res) => {
     })
 }
 
-const getUserById = (req, res) => {
-    const id = parseInt(req.params.id)
+const getHistoryById = (req, res) => {
+    const timer_id = parseInt(req.params.timer_id)
 
-    pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+    pool.query('SELECT * FROM timer_history WHERE timer_id = $1', [timer_id], (error, results) => {
         if (error) {
             throw error
         }
@@ -27,50 +34,46 @@ const getUserById = (req, res) => {
     })
 }
 
-const createUser = (req, res) => {
-    const { time, status } = req.body
-    console.log(time)
-    // const time = req.body.time
-    // const status = req.body.status
-    pool.query('INSERT INTO users (time, status) VALUES ($1, $2) RETURNING id', [time, status], (error, results) => {
+const createHistory = (req, res) => {
+    const { total_time, created_on } = req.body
+    console.log(total_time)
+    pool.query('INSERT INTO timer_history (total_time, created_on) VALUES ($1, $2) RETURNING timer_id', [total_time, created_on], (error, results) => {
         if (error) {
             throw error
         }
-        res.status(201).send(`User added with ID: ${results.rows[0].id}`)
+        res.status(201).send(`Timer history added with ID: ${results.rows[0].timer_id}`)
     })
 }
 
-const updateUser = (req, res) => {
-    const id = parseInt(req.params.id)
-    const { time, status } = req.body
-    // const time = req.params.time
-    // const status = req.params.status
+// update not needed
+const updateHistory = (req, res) => {
+    const { total_time, created_on } = req.body
     pool.query(
-        'UPDATE users SET time = $1, status = $2 WHERE id = $3',
-        [time, status, id],
+        'UPDATE timer_history SET total_time = $1, created_on = $2 WHERE timer_id = $3',
+        [total_time, created_on, timer_id],
         (error, results) => {
             if (error) {
                 throw error
             }
-            res.status(200).send(`User modified with ID: ${id}`)
+            res.status(200).send(`User modified with ID: ${timer_id}`)
         })
 }
 
-const deleteUser = (req, res) => {
-    const id = parseInt(req.params.id)
+const deleteHistory = (req, res) => {
+    const timer_id = parseInt(req.params.timer_id)
 
-    pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+    pool.query('DELETE FROM timer_history WHERE timer_id = $1', [timer_id], (error, results) => {
         if (error) {
             throw error
         }
-        res.status(200).send(`User deleted with ID: ${id}`)
+        res.status(200).send(`User deleted with ID: ${timer_id}`)
     })
 }
 
 module.exports = {
-    getUsers,
-    getUserById,
-    createUser,
-    updateUser,
-    deleteUser
+    getHistory,
+    getHistoryById,
+    createHistory,
+    updateHistory,
+    deleteHistory
 }
