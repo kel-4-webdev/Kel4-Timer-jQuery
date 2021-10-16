@@ -24,8 +24,8 @@ const getHistory = (req, res) => {
 }
 
 const getHistoryById = (req, res) => {
-    const timer_id = parseInt(req.params.timer_id)
-
+    const timer_id = req.params.timer_id
+    console.log(`Nama : ${timer_id}`)
     pool.query('SELECT * FROM timer_history WHERE timer_id = $1', [timer_id], (error, results) => {
         if (error) {
             throw error
@@ -49,8 +49,7 @@ const createHistory = (req, res) => {
 const updateHistory = (req, res) => {
     const { total_time, created_on } = req.body
     pool.query(
-        'UPDATE timer_history SET total_time = $1, created_on = $2 WHERE timer_id = $3',
-        [total_time, created_on, timer_id],
+        'UPDATE timer_history SET total_time = $1, created_on = $2 WHERE timer_id = $3', [total_time, created_on, timer_id],
         (error, results) => {
             if (error) {
                 throw error
@@ -60,7 +59,7 @@ const updateHistory = (req, res) => {
 }
 
 const deleteHistory = (req, res) => {
-    const timer_id = parseInt(req.params.timer_id)
+    const timer_id = req.params.timer_id
 
     pool.query('DELETE FROM timer_history WHERE timer_id = $1', [timer_id], (error, results) => {
         if (error) {

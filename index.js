@@ -23,18 +23,18 @@ app.use('/img', express.static(__dirname + '/public /img'));
 
 app.set('view engine', 'ejs');
 
-app.get('/',(req,res) => {
-    res.render(__dirname + '/views/index.ejs');
-    // res.json({ info: 'Node.js, Express, and Postgres API' })
-})
-//require("./layout/index.html")(app);
+app.get('/', (req, res) => {
+        res.render(__dirname + '/views/index.ejs');
+        // res.json({ info: 'Node.js, Express, and Postgres API' })
+    })
+    //require("./layout/index.html")(app);
 
 app.use(express.json());
 app.get('/history', db.getHistory)
-app.get('/history/:id', db.getHistoryById)
+app.get('/history/:timer_id', db.getHistoryById)
 app.post('/history', db.createHistory)
-app.put('/history/:id', db.updateHistory)
-app.delete('/history/:id', db.deleteHistory)
+app.put('/history/:timer_id', db.updateHistory)
+app.delete('/history/:timer_id', db.deleteHistory)
 
 // start server
 app.listen(port);
